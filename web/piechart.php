@@ -32,32 +32,7 @@
     <script type="text/javascript" src="Scroller-2.0.0/js/dataTables.scroller.min.js"></script>
 
     <!-- load the available datasets, groups and colour schemes -->
-    <script type="text/javascript">
-    <?php
-      function preformat($file) {
-        $file = explode('/', $file);
-        unset($file[0]);
-        $file = implode('/', $file);
-        if (dirname($file) == '.')
-          return "'" . basename($file, ".json") . "'";
-        else
-          return "'" . dirname($file) . "/" . basename($file, ".json") . "'";
-      }
-
-      // from https://stackoverflow.com/a/17161106/2050986
-      // does not support flag GLOB_BRACE
-      function rglob($basedir, $pattern, $flags = 0) {
-          $files = glob($basedir.'/'.$pattern, $flags);
-          foreach (glob($basedir.'/*', GLOB_ONLYDIR) as $dir) {
-              $files = array_merge($files, rglob($dir, $pattern, $flags));
-          }
-          return $files;
-      }
-      print("var datasets = [ " . join(", ", array_map("preformat", rglob("data","*.json"))) . " ];\n");
-      print("var groups = [ " . join(", ", array_map("preformat", glob("groups/*.json"))) . " ];\n");
-      print("var colours = [ " . join(", ", array_map("preformat", glob("colours/*.json"))) . " ];\n");
-    ?>
-    </script>
+    <script type="text/javascript" src="dataset.js"></script>
 
     <!-- local code -->
     <style type="text/css">
