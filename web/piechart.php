@@ -32,7 +32,7 @@
     <script type="text/javascript" src="Scroller-2.0.0/js/dataTables.scroller.min.js"></script>
 
     <!-- load the available datasets, groups and colour schemes -->
-    <script type="text/javascript" src="dataset.js"></script>
+    <script type="text/javascript" src="dataset.js?random=<?= uniqid() ?>"></script>
 
     <!-- local code -->
     <style type="text/css">
