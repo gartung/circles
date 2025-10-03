@@ -18,7 +18,10 @@
           }
           return $files;
       }
-      print("var datasets = [ " . join(", ", array_map("preformat", rglob("data","*.json"))) . " ];\n");
+      $data = "data";
+      if ($argc > 1) {$data = $argv[1];}
+      print("var data_name = \"$data\";\n");
+      print("var datasets = [ " . join(", ", array_map("preformat", rglob($data,"*.json"))) . " ];\n");
       print("var groups = [ " . join(", ", array_map("preformat", glob("groups/*.json"))) . " ];\n");
       print("var colours = [ " . join(", ", array_map("preformat", glob("colours/*.json"))) . " ];\n");
     ?>
