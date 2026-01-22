@@ -640,7 +640,8 @@ function createPackagesSingleStackChart(groups){
         },
         legend:{ position:'right', labels:{ boxWidth:12 } }
       }
-    });
+    } 
+  });
 }
 
 function downloadImage(canvasId, filename){
@@ -724,6 +725,8 @@ document.addEventListener("DOMContentLoaded", function initBarChartPage(){
       addComparisonDataset(name);
     });
   }
+
+  populateComparisonAddSelect(); // ensure dropdown is filled on load
 });
 
 function resizeChartHeights(){
@@ -771,18 +774,29 @@ function switchChartView(){
 
 function populateComparisonAddSelect(){
   var sel = document.getElementById('comparison_add_select');
-  if (!sel) return;
-  var keep = sel.value;
+  if (!sel || !Array.isArray(datasets)) return;
+
+  var prev = sel.value;
   while (sel.options.length) sel.remove(0);
+
   var currentPrimary = config.dataset;
   datasets.forEach(function(d){
     if (d === currentPrimary) return;
-    if (comparisonDatasets.find(c=>c.name===d)) return;
-    var opt=document.createElement('option');
-    opt.value=d; opt.text=d;
+    if (comparisonDatasets.some(c => c.name === d)) return;
+    var opt = document.createElement('option');
+    opt.value = d; opt.text = d;
     sel.add(opt);
   });
-  if (sel.options.length) sel.selectedIndex=0;
+
+  if (!sel.options.length) {
+    sel.disabled = true;
+    sel.title = "No other datasets available";
+    return;
+  }
+  sel.disabled = false;
+  sel.title = "";
+  var idx = Array.from(sel.options).findIndex(o => o.value === prev);
+  sel.selectedIndex = idx >= 0 ? idx : 0;
 }
 
 function refreshComparisonList(){
