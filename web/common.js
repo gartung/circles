@@ -316,6 +316,7 @@ function downloadDataset() {
 
 function loadAvailableMetrics() {
   var menu = document.getElementById("metric_menu");
+  var previousMetric = config.resource; // Preserve current selection
 
   // Clear the current resources
   while (menu.length) {
@@ -333,8 +334,8 @@ function loadAvailableMetrics() {
       entry.dataset.title = resources[i].title;
       entry.dataset.unit = resources[i].unit;
       menu.add(entry);
-      if (key == config.resource) {
-        menu.selectedIndex = i;
+      if (resources[i].name === previousMetric) {
+        menu.selectedIndex = menu.length - 1;
       }
     } else {
       for (key in resources[i]) {
@@ -342,8 +343,8 @@ function loadAvailableMetrics() {
         entry.text = resources[i][key];
         entry.value = key;
         menu.add(entry);
-        if (key == config.resource) {
-          menu.selectedIndex = i;
+        if (key === previousMetric) {
+          menu.selectedIndex = menu.length - 1;
         }
       }
     }
