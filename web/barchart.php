@@ -640,8 +640,7 @@ function createPackagesSingleStackChart(groups){
         },
         legend:{ position:'right', labels:{ boxWidth:12 } }
       }
-    }
-  });
+    });
 }
 
 function downloadImage(canvasId, filename){
@@ -715,6 +714,16 @@ document.addEventListener("DOMContentLoaded", function initBarChartPage(){
   window.addEventListener('resize', resizeChartHeights);
   updateRelativeDiffLabelState();
   updateDownloadButtonLabel();
+  
+  // Load comparison datasets from URL if present
+  var params = new URLSearchParams(window.location.search);
+  var comparisonParam = params.get('comparison');
+  if (comparisonParam) {
+    var comparisonNames = comparisonParam.split(',').map(s => s.trim()).filter(s => s);
+    comparisonNames.forEach(name => {
+      addComparisonDataset(name);
+    });
+  }
 });
 
 function resizeChartHeights(){
@@ -818,11 +827,12 @@ function removeComparisonDataset(name) {
   if (lastTopGroups) createPackagesSingleStackChart(lastTopGroups);
 }
 
-function addComparisonDataset(){
-  var sel = document.getElementById('comparison_add_select');
-  if (!sel || !sel.value) return;
-  var name = sel.value;
+function addComparisonDataset(datasetName){
+  var name = datasetName || (document.getElementById('comparison_add_select').value || null);
+  
+  if (!name) return;
   if (comparisonDatasets.find(c=>c.name===name)) return;
+  
   isDiffView = false;
   var button = document.querySelector("button[onclick='toggleTimingDifference()']");
   if (button) button.textContent = "Switch to diff view";
