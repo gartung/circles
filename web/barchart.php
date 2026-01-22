@@ -724,6 +724,7 @@ document.addEventListener("DOMContentLoaded", function initBarChartPage(){
     comparisonNames.forEach(name => {
       addComparisonDataset(name);
     });
+    toggleTimingDifference()
   } else {
     populateComparisonAddSelect(); // ensure dropdown is filled on load
   }
