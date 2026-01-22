@@ -724,9 +724,9 @@ document.addEventListener("DOMContentLoaded", function initBarChartPage(){
     comparisonNames.forEach(name => {
       addComparisonDataset(name);
     });
+  } else {
+    populateComparisonAddSelect(); // ensure dropdown is filled on load
   }
-
-  populateComparisonAddSelect(); // ensure dropdown is filled on load
 });
 
 function resizeChartHeights(){
