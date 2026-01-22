@@ -951,8 +951,21 @@ updateDataset = function(){
   tableUserInitiatedSort = false;
   var table = $('#properties').DataTable();
   table.order([]).draw();
+  
+  // Preserve comparison datasets before updating primary dataset
+  var savedComparisons = comparisonDatasets.map(cd => cd.name);
+  
   _origUpdateDataset();
+  
+  // Re-load preserved comparisons with new primary dataset context
   invalidateComparisons();
+  
+  // Restore comparison datasets that were previously loaded
+  savedComparisons.forEach(name => {
+    if (!comparisonDatasets.find(cd => cd.name === name)) {
+      loadComparisonDataset(name);
+    }
+  });
 };
 
 var isDiffView = false;
