@@ -925,7 +925,13 @@ function processComparisonRaw(name, raw){
 
 // Clear comparisons when primary context changes
 function invalidateComparisons(){
-  clearComparisons();
+  // Only invalidate the aggregated cache, don't clear the comparison list
+  aggregatedComparisonCache = {};
+  cachedComparisonTrees = {};
+  // Re-aggregate comparison datasets with new metric/groups
+  comparisonDatasets.forEach(cd => {
+    loadComparisonDataset(cd.name);
+  });
   populateComparisonAddSelect();
 }
 
